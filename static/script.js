@@ -1,21 +1,38 @@
+// 🎤 ELEMENTS
 const btn = document.getElementById("micBtn");
 const status = document.getElementById("status");
 const textBtn = document.getElementById("textBtn");
 const textInput = document.getElementById("textInput");
 const glow = document.getElementById("mouseGlow");
 
-const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = "en-US";
+// 🎤 SPEECH RECOGNITION SAFE SETUP
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+let recognition = null;
 let isListening = false;
 
-// 🎤 MIC
+if (!SpeechRecognition) {
+    alert("Your browser does not support voice recognition. Please use Google Chrome.");
+} else {
+    recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+}
+
+// 🎤 MIC BUTTON
 btn.onclick = () => {
+    if (!recognition) return;
+
     if (!isListening) {
-        recognition.start();
-        status.innerText = "Listening...";
-        isListening = true;
-        btn.innerText = "🛑 Stop";
+        try {
+            recognition.start();
+            status.innerText = "Listening...";
+            isListening = true;
+            btn.innerText = "🛑 Stop";
+        } catch (e) {
+            console.log("Recognition already started");
+        }
     } else {
         recognition.stop();
         status.innerText = "Stopped";
@@ -24,20 +41,29 @@ btn.onclick = () => {
     }
 };
 
-recognition.onresult = (event) => {
-    const text = event.results[0][0].transcript;
-    recognition.stop();
-    analyzeText(text);
-};
+// 🎤 RESULT
+if (recognition) {
+    recognition.onresult = (event) => {
+        const text = event.results[0][0].transcript;
+        recognition.stop();
+        analyzeText(text);
+    };
 
-recognition.onend = () => {
-    isListening = false;
-    btn.innerText = "🎙️ Start Talking";
-};
+    recognition.onend = () => {
+        isListening = false;
+        btn.innerText = "🎙️ Start Talking";
+    };
 
-// ✍️ TEXT
+    recognition.onerror = (e) => {
+        status.innerText = "Mic error: " + e.error;
+        isListening = false;
+        btn.innerText = "🎙️ Start Talking";
+    };
+}
+
+// ✍️ TEXT INPUT
 textBtn.onclick = () => {
-    const text = textInput.value;
+    const text = textInput.value.trim();
     if (!text) return alert("Enter text");
     analyzeText(text);
 };
@@ -46,33 +72,39 @@ textInput.addEventListener("keypress", e => {
     if (e.key === "Enter") textBtn.click();
 });
 
-// 🔥 API
+// 🔥 API CALL
 async function analyzeText(text) {
     status.innerText = "Processing...";
 
-    const res = await fetch("/analyze-text", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ text })
-    });
+    try {
+        const res = await fetch("/analyze-text", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text })
+        });
 
-    const data = await res.json();
+        const data = await res.json();
 
-    document.getElementById("text").innerText = text;
-    document.getElementById("main").innerText =
-        (data.emotion || "unknown") + " (" + (data.sentiment || "unknown") + ")";
-    document.getElementById("message").innerText = data.message;
+        document.getElementById("text").innerText = text;
+        document.getElementById("main").innerText =
+            (data.emotion || "unknown") + " (" + (data.sentiment || "unknown") + ")";
+        document.getElementById("message").innerText = data.message;
 
-    status.innerText = "Done ✅";
+        status.innerText = "Done ✅";
+    } catch (error) {
+        console.error(error);
+        status.innerText = "Error ❌";
+    }
 }
 
 // 🖱️ MOUSE GLOW
 document.addEventListener("mousemove", e => {
+    if (!glow) return;
     glow.style.left = e.clientX + "px";
     glow.style.top = e.clientY + "px";
 });
 
-// ✨ SCROLL
+// ✨ SCROLL ANIMATION
 function revealOnScroll() {
     document.querySelectorAll(".reveal").forEach(el => {
         if (el.getBoundingClientRect().top < window.innerHeight - 100) {
@@ -80,5 +112,6 @@ function revealOnScroll() {
         }
     });
 }
+
 window.addEventListener("scroll", revealOnScroll);
 revealOnScroll();
