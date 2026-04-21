@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MoodLens AI</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="wave-bg"></div>
+<div class="wave-bg layer2"></div>
+<div class="mouse-glow" id="mouseGlow"></div>
+
+<!-- 🔥 NAVBAR -->
+<div class="navbar">
+  <div class="logo">MoodLens AI</div>
+  <div class="nav-right">
+    <a href="/logout" class="logout-btn">Logout</a>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero reveal">
+  <h1>MoodLens AI</h1>
+  <p class="tagline">AI that reads how you feel</p>
+</section>
+
+<!-- 💻 APP -->
+<section class="app-section reveal">
+  <div class="card">
+
+    <button id="micBtn">🎙️ Start Talking</button>
+    <p id="status"></p>
+
+    <div class="input-group">
+      <input type="text" id="textInput" placeholder="Type your thoughts..." />
+      <button id="textBtn">Analyze</button>
+    </div>
+
+    <h2 id="main"></h2>
+    <p id="message"></p>
+    <p id="text"></p>
+
+    <canvas id="chart"></canvas>
+
+  </div>
+</section>
+
+<script src="/static/script.js"></script>
+</body>
+</html>

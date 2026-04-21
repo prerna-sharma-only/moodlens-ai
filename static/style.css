@@ -1,0 +1,208 @@
+/* 🌌 BASE */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  color: #eaeaea;
+  background: radial-gradient(circle at center, #020617, #000);
+  overflow-x: hidden;
+}
+
+/* 🌊 WAVES */
+.wave-bg {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, #7c3aed, transparent 40%),
+              radial-gradient(circle at 70% 70%, #06b6d4, transparent 40%);
+  opacity: 0.25;
+  z-index: -3;
+  animation: waveMove 12s infinite ease-in-out;
+}
+
+.wave-bg.layer2 {
+  opacity: 0.15;
+  animation: waveMove2 18s infinite ease-in-out;
+}
+
+@keyframes waveMove {
+  0% { transform: translate(0,0) rotate(0deg); }
+  50% { transform: translate(120px,-100px) rotate(10deg); }
+  100% { transform: translate(-100px,120px) rotate(-10deg); }
+}
+
+@keyframes waveMove2 {
+  0% { transform: translate(0,0); }
+  50% { transform: translate(-150px,120px); }
+  100% { transform: translate(100px,-120px); }
+}
+
+/* 🖱️ MOUSE GLOW */
+.mouse-glow {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(124,58,237,0.3), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+}
+
+/* ✨ SCROLL */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.8s;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 80px 20px 40px;
+}
+
+.hero h1 {
+  font-size: 48px;
+  color: white;
+}
+
+.hero p {
+  color: #94a3b8;
+}
+
+/* APP */
+.app-section {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* CARD */
+.card {
+  max-width: 700px;
+  width: 100%;
+  padding: 40px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  text-align: center;
+}
+
+/* BUTTON */
+#micBtn {
+  padding: 14px 30px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #7c3aed, #06b6d4);
+  color: white;
+  cursor: pointer;
+}
+
+/* INPUT */
+.input-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+#textInput {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #020617;
+  color: white;
+}
+
+#textBtn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #06b6d4;
+  color: black;
+  cursor: pointer;
+}
+
+/* RESULTS */
+#main { margin-top: 20px; font-size: 28px; }
+#message { color: #94a3b8; }
+
+/* CHART */
+#chart { margin-top: 20px; }
+
+/* 🔥 NAVBAR FIXED */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  padding: 15px 30px;
+  box-sizing: border-box; /* 🔥 IMPORTANT FIX */
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+
+  z-index: 10;
+}
+
+/* LOGO */
+.logo {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* RIGHT SIDE */
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+/* LOGOUT BUTTON */
+.logout-btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+
+  background: linear-gradient(135deg, #ff4b5c, #ff6a88);
+  color: white;
+  font-weight: 500;
+
+  white-space: nowrap; /* prevents breaking */
+  transition: 0.3s;
+}
+
+.logout-btn:hover {
+  transform: scale(1.05);
+}
+
+/* 🔥 TAGLINE STYLE */
+.tagline {
+  color: #94a3b8;
+  font-size: 18px;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* ✨ LOGO GRADIENT (if not already added) */
+.logo {
+  font-weight: 700;
+  font-size: 20px;
+  background: linear-gradient(135deg, #7c3aed, #06b6d4);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
