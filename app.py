@@ -5,7 +5,7 @@ from transformers import pipeline
 app = Flask(__name__)
 app.secret_key = "secret123"
 
-# -------- DATABASE --------
+# -------- working on database --------
 def init_db():
     conn = sqlite3.connect("users.db")
     c = conn.cursor()
